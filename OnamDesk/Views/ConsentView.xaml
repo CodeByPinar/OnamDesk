@@ -1,0 +1,221 @@
+﻿<UserControl x:Class="OnamDesk.Views.ConsentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="650"
+             d:DesignWidth="1050">
+
+    <Grid Background="#F4F7FA" Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Başlık -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,16">
+            <TextBlock Text="Onam Formu"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       Foreground="#1E293B"/>
+
+            <TextBlock Text="Hasta, şablon ve imza bilgisiyle dijital onam kaydı oluşturun."
+                       FontSize="14"
+                       Foreground="#64748B"
+                       Margin="0,4,0,0"/>
+        </StackPanel>
+
+        <!-- İçerik -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.15*"/>
+                <ColumnDefinition Width="24"/>
+                <ColumnDefinition Width="1.85*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Sol: Form Seçimleri -->
+            <Border Grid.Column="0"
+                    Background="White"
+                    CornerRadius="14"
+                    Padding="20"
+                    BorderBrush="#E2E8F0"
+                    BorderThickness="1">
+
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock Text="1. Hasta Seçimi"
+                                   FontSize="18"
+                                   FontWeight="SemiBold"
+                                   Foreground="#1E293B"/>
+
+                        <ComboBox Height="38"
+                                  Margin="0,10,0,18"
+                                  ItemsSource="{Binding Patients}"
+                                  SelectedItem="{Binding SelectedPatient, Mode=TwoWay}"
+                                  DisplayMemberPath="FullName"/>
+
+                        <TextBlock Text="2. Şablon Seçimi"
+                                   FontSize="18"
+                                   FontWeight="SemiBold"
+                                   Foreground="#1E293B"/>
+
+                        <ComboBox Height="38"
+                                  Margin="0,10,0,18"
+                                  ItemsSource="{Binding Templates}"
+                                  SelectedItem="{Binding SelectedTemplate, Mode=TwoWay}"
+                                  DisplayMemberPath="Name"/>
+
+                        <TextBlock Text="3. Doktor Bilgisi"
+                                   FontSize="18"
+                                   FontWeight="SemiBold"
+                                   Foreground="#1E293B"/>
+
+                        <TextBlock Text="Doktor Adı"
+                                   Foreground="#475569"
+                                   Margin="0,10,0,4"/>
+
+                        <TextBox Height="36"
+                                 VerticalContentAlignment="Center"
+                                 Padding="10,0"
+                                 Text="{Binding DoctorName, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Text="Ek Notlar"
+                                   Foreground="#475569"
+                                   Margin="0,14,0,4"/>
+
+                        <TextBox Height="75"
+                                 TextWrapping="Wrap"
+                                 AcceptsReturn="True"
+                                 VerticalScrollBarVisibility="Auto"
+                                 Padding="10"
+                                 Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Text="4. Hasta İmzası"
+                                   FontSize="18"
+                                   FontWeight="SemiBold"
+                                   Foreground="#1E293B"
+                                   Margin="0,18,0,8"/>
+
+                        <Border Background="#FFFFFF"
+                                BorderBrush="#CBD5E1"
+                                BorderThickness="1.5"
+                                CornerRadius="12"
+                                Height="145"
+                                Padding="8">
+
+                            <InkCanvas x:Name="SignatureInkCanvas"
+                                       Background="#F8FAFC"
+                                       EditingMode="Ink"
+                                       DefaultDrawingAttributes="{Binding SignatureDrawingAttributes, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                        </Border>
+
+                        <TextBlock Text="Hasta fare, dokunmatik ekran veya tablet kalemi ile imza atabilir."
+                                   Foreground="#64748B"
+                                   FontSize="12"
+                                   Margin="0,6,0,0"
+                                   TextWrapping="Wrap"/>
+
+                        <Button Content="İmzalı Onam Kaydı Oluştur"
+                                Height="42"
+                                Margin="0,18,0,0"
+                                Click="CreateSignedConsentButton_Click"/>
+
+                        <Button Content="İmzayı Temizle"
+                                Height="38"
+                                Margin="0,10,0,0"
+                                Click="ClearSignatureButton_Click"/>
+
+                        <Button Content="Formu Temizle"
+                                Height="38"
+                                Margin="0,10,0,0"
+                                Command="{Binding ClearFormCommand}"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+
+            <!-- Sağ: Şablon Önizleme -->
+            <Border Grid.Column="2"
+                    Background="White"
+                    CornerRadius="14"
+                    Padding="20"
+                    BorderBrush="#E2E8F0"
+                    BorderThickness="1">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Margin="0,0,0,16">
+                        <TextBlock Text="Şablon Önizleme"
+                                   FontSize="20"
+                                   FontWeight="SemiBold"
+                                   Foreground="#1E293B"/>
+
+                        <TextBlock Text="Seçilen şablonun açıklama ve risk metinleri burada görüntülenir."
+                                   FontSize="13"
+                                   Foreground="#64748B"
+                                   Margin="0,4,0,0"/>
+                    </StackPanel>
+
+                    <ScrollViewer Grid.Row="1"
+                                  VerticalScrollBarVisibility="Auto">
+
+                        <StackPanel>
+                            <TextBlock Text="Açıklama / İçerik"
+                                       FontSize="15"
+                                       FontWeight="SemiBold"
+                                       Foreground="#0F172A"
+                                       Margin="0,0,0,6"/>
+
+                            <Border Background="#F8FAFC"
+                                    CornerRadius="10"
+                                    Padding="12"
+                                    BorderBrush="#E2E8F0"
+                                    BorderThickness="1">
+
+                                <TextBlock Text="{Binding SelectedTemplateContent}"
+                                           TextWrapping="Wrap"
+                                           Foreground="#334155"
+                                           LineHeight="22"/>
+                            </Border>
+
+                            <TextBlock Text="Risk ve Komplikasyonlar"
+                                       FontSize="15"
+                                       FontWeight="SemiBold"
+                                       Foreground="#0F172A"
+                                       Margin="0,18,0,6"/>
+
+                            <Border Background="#FFF7ED"
+                                    CornerRadius="10"
+                                    Padding="12"
+                                    BorderBrush="#FED7AA"
+                                    BorderThickness="1">
+
+                                <TextBlock Text="{Binding SelectedTemplateRisks}"
+                                           TextWrapping="Wrap"
+                                           Foreground="#9A3412"
+                                           LineHeight="22"/>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Durum Mesajı -->
+        <Border Grid.Row="2"
+                Background="#EEF2FF"
+                CornerRadius="10"
+                Padding="12"
+                Margin="0,16,0,0">
+
+            <TextBlock Text="{Binding StatusMessage}"
+                       Foreground="#4338CA"
+                       FontWeight="SemiBold"/>
+        </Border>
+    </Grid>
+</UserControl>

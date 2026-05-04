@@ -1,0 +1,198 @@
+﻿<UserControl x:Class="OnamDesk.Views.PatientView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="650"
+             d:DesignWidth="1050">
+    <Grid Background="#F4F7FA" Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Başlık -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,16">
+            <TextBlock Text="Hasta Yönetimi"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       Foreground="#1E293B"/>
+
+            <TextBlock Text="Hasta kayıtlarını ekleyin, düzenleyin, arayın ve yönetin."
+                       FontSize="14"
+                       Foreground="#64748B"
+                       Margin="0,4,0,0"/>
+        </StackPanel>
+
+        <!-- İçerik -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="24"/>
+                <ColumnDefinition Width="1.2*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Sol: Liste -->
+            <Border Grid.Column="0"
+                    Background="White"
+                    CornerRadius="14"
+                    Padding="16"
+                    BorderBrush="#E2E8F0"
+                    BorderThickness="1">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="12"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <DockPanel Grid.Row="0">
+                        <TextBox Width="280"
+                                 Height="36"
+                                 VerticalContentAlignment="Center"
+                                 Padding="10,0"
+                                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                                 ToolTip="Hasta adı veya telefon ile ara"/>
+
+                        <TextBox Width="380"
+         Height="36"
+         VerticalContentAlignment="Center"
+         Padding="10,0"
+         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+         ToolTip="Hasta adı veya telefon ile ara"/>
+
+                        <Button Content="Yenile"
+                                Width="80"
+                                Height="36"
+                                Margin="10,0,0,0"
+                                Command="{Binding LoadPatientsCommand}"/>
+                    </DockPanel>
+
+                    <DataGrid Grid.Row="2"
+                              ItemsSource="{Binding Patients}"
+                              SelectedItem="{Binding SelectedPatient, Mode=TwoWay}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              SelectionMode="Single"
+                              CanUserAddRows="False"
+                              HeadersVisibility="Column"
+                              GridLinesVisibility="Horizontal"
+                              RowHeight="36">
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID"
+                                                Binding="{Binding Id}"
+                                                Width="60"/>
+
+                            <DataGridTextColumn Header="Ad Soyad"
+                                                Binding="{Binding FullName}"
+                                                Width="*"/>
+
+                            <DataGridTextColumn Header="Doğum Tarihi"
+                                                Binding="{Binding BirthDate, StringFormat=dd.MM.yyyy}"
+                                                Width="130"/>
+
+                            <DataGridTextColumn Header="Telefon"
+                                                Binding="{Binding Phone}"
+                                                Width="140"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+
+            <!-- Sağ: Form -->
+            <Border Grid.Column="2"
+                    Background="White"
+                    CornerRadius="14"
+                    Padding="20"
+                    BorderBrush="#E2E8F0"
+                    BorderThickness="1">
+
+                <StackPanel>
+                    <TextBlock Text="Hasta Bilgileri"
+                               FontSize="20"
+                               FontWeight="SemiBold"
+                               Foreground="#1E293B"
+                               Margin="0,0,0,16"/>
+
+                    <TextBlock Text="Ad Soyad"
+                               Foreground="#475569"
+                               Margin="0,0,0,4"/>
+
+                    <TextBox Height="36"
+                             VerticalContentAlignment="Center"
+                             Padding="10,0"
+                             Text="{Binding FullName, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Text="TC Kimlik No"
+                               Foreground="#475569"
+                               Margin="0,14,0,4"/>
+
+                    <TextBox Height="36"
+                             VerticalContentAlignment="Center"
+                             Padding="10,0"
+                             MaxLength="11"
+                             Text="{Binding TcNo, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Text="Doğum Tarihi"
+                               Foreground="#475569"
+                               Margin="0,14,0,4"/>
+
+                    <DatePicker Height="36"
+                                SelectedDate="{Binding BirthDate, Mode=TwoWay}"/>
+
+                    <TextBlock Text="Telefon"
+                               Foreground="#475569"
+                               Margin="0,14,0,4"/>
+
+                    <TextBox Height="36"
+                             VerticalContentAlignment="Center"
+                             Padding="10,0"
+                             Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <StackPanel Orientation="Horizontal"
+                                Margin="0,24,0,0">
+
+                        <Button Content="Ekle"
+                                Width="90"
+                                Height="38"
+                                Command="{Binding AddPatientCommand}"/>
+
+                        <Button Content="Güncelle"
+                                Width="90"
+                                Height="38"
+                                Margin="10,0,0,0"
+                                Command="{Binding UpdatePatientCommand}"/>
+
+                        <Button Content="Sil"
+                                Width="90"
+                                Height="38"
+                                Margin="10,0,0,0"
+                                Command="{Binding DeletePatientCommand}"/>
+                    </StackPanel>
+
+                    <Button Content="Formu Temizle"
+                            Height="38"
+                            Margin="0,12,0,0"
+                            Command="{Binding ClearFormCommand}"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Durum Mesajı -->
+        <Border Grid.Row="2"
+                Background="#E0F2FE"
+                CornerRadius="10"
+                Padding="12"
+                Margin="0,16,0,0">
+
+            <TextBlock Text="{Binding StatusMessage}"
+                       Foreground="#0369A1"
+                       FontWeight="SemiBold"/>
+        </Border>
+            
+    </Grid>
+</UserControl>

@@ -1,0 +1,281 @@
+﻿<UserControl x:Class="OnamDesk.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="650"
+             d:DesignWidth="1050">
+
+    <UserControl.Resources>
+        <Style x:Key="MetricCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="16"/>
+            <Setter Property="Padding" Value="18"/>
+            <Setter Property="BorderBrush" Value="#E2E8F0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="0,0,14,14"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Background="#F4F7FA" Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Başlık -->
+        <DockPanel Grid.Row="0" Margin="0,0,0,16">
+            <StackPanel>
+                <TextBlock Text="Ana Sayfa"
+                           FontSize="28"
+                           FontWeight="Bold"
+                           Foreground="#1E293B"/>
+
+                <TextBlock Text="{Binding ClinicName}"
+                           FontSize="15"
+                           Foreground="#0F766E"
+                           FontWeight="SemiBold"
+                           Margin="0,4,0,0"/>
+            </StackPanel>
+
+            <Button Content="Yenile"
+                    Width="90"
+                    Height="38"
+                    DockPanel.Dock="Right"
+                    HorizontalAlignment="Right"
+                    Command="{Binding LoadDashboardCommand}"/>
+        </DockPanel>
+
+        <!-- Metrik Kartları -->
+        <UniformGrid Grid.Row="1"
+                     Columns="3"
+                     Margin="0,0,0,8">
+
+            <Border Style="{StaticResource MetricCardStyle}">
+                <StackPanel>
+                    <TextBlock Text="Toplam Hasta"
+                               Foreground="#64748B"
+                               FontWeight="SemiBold"/>
+
+                    <TextBlock Text="{Binding TotalPatients}"
+                               FontSize="34"
+                               FontWeight="Bold"
+                               Foreground="#0F172A"
+                               Margin="0,8,0,0"/>
+
+                    <TextBlock Text="Kayıtlı hasta sayısı"
+                               Foreground="#94A3B8"
+                               FontSize="12"/>
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource MetricCardStyle}">
+                <StackPanel>
+                    <TextBlock Text="Onam Kayıtları"
+                               Foreground="#64748B"
+                               FontWeight="SemiBold"/>
+
+                    <TextBlock Text="{Binding TotalConsentForms}"
+                               FontSize="34"
+                               FontWeight="Bold"
+                               Foreground="#0F766E"
+                               Margin="0,8,0,0"/>
+
+                    <TextBlock Text="İmzalı onam kayıtları"
+                               Foreground="#94A3B8"
+                               FontSize="12"/>
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource MetricCardStyle}">
+                <StackPanel>
+                    <TextBlock Text="PDF Oluşturulan"
+                               Foreground="#64748B"
+                               FontWeight="SemiBold"/>
+
+                    <TextBlock Text="{Binding PdfGeneratedCount}"
+                               FontSize="34"
+                               FontWeight="Bold"
+                               Foreground="#1D4ED8"
+                               Margin="0,8,0,0"/>
+
+                    <TextBlock Text="PDF arşivlenmiş kayıt"
+                               Foreground="#94A3B8"
+                               FontSize="12"/>
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource MetricCardStyle}">
+                <StackPanel>
+                    <TextBlock Text="Toplam Şablon"
+                               Foreground="#64748B"
+                               FontWeight="SemiBold"/>
+
+                    <TextBlock Text="{Binding TotalTemplates}"
+                               FontSize="34"
+                               FontWeight="Bold"
+                               Foreground="#7C3AED"
+                               Margin="0,8,0,0"/>
+
+                    <TextBlock Text="Tüm şablonlar"
+                               Foreground="#94A3B8"
+                               FontSize="12"/>
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource MetricCardStyle}">
+                <StackPanel>
+                    <TextBlock Text="Aktif Şablon"
+                               Foreground="#64748B"
+                               FontWeight="SemiBold"/>
+
+                    <TextBlock Text="{Binding ActiveTemplates}"
+                               FontSize="34"
+                               FontWeight="Bold"
+                               Foreground="#15803D"
+                               Margin="0,8,0,0"/>
+
+                    <TextBlock Text="Onamda kullanılabilir"
+                               Foreground="#94A3B8"
+                               FontSize="12"/>
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource MetricCardStyle}">
+                <StackPanel>
+                    <TextBlock Text="Audit Log"
+                               Foreground="#64748B"
+                               FontWeight="SemiBold"/>
+
+                    <TextBlock Text="{Binding TotalAuditLogs}"
+                               FontSize="34"
+                               FontWeight="Bold"
+                               Foreground="#B45309"
+                               Margin="0,8,0,0"/>
+
+                    <TextBlock Text="Kayıt altına alınan işlem"
+                               Foreground="#94A3B8"
+                               FontSize="12"/>
+                </StackPanel>
+            </Border>
+        </UniformGrid>
+
+        <!-- Alt Listeler -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.2*"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Son Onamlar -->
+            <Border Grid.Column="0"
+                    Background="White"
+                    CornerRadius="16"
+                    Padding="16"
+                    BorderBrush="#E2E8F0"
+                    BorderThickness="1">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="12"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Text="Son Onam Kayıtları"
+                               FontSize="18"
+                               FontWeight="SemiBold"
+                               Foreground="#1E293B"/>
+
+                    <DataGrid Grid.Row="2"
+                              ItemsSource="{Binding LatestConsentForms}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              CanUserAddRows="False"
+                              HeadersVisibility="Column"
+                              GridLinesVisibility="Horizontal"
+                              RowHeight="36">
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Hasta"
+                                                Binding="{Binding Patient.FullName}"
+                                                Width="*"/>
+
+                            <DataGridTextColumn Header="Şablon"
+                                                Binding="{Binding Template.Name}"
+                                                Width="180"/>
+
+                            <DataGridTextColumn Header="Tarih"
+                                                Binding="{Binding SignedAt, StringFormat=dd.MM.yyyy HH:mm}"
+                                                Width="140"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+
+            <!-- Son Loglar -->
+            <Border Grid.Column="2"
+                    Background="White"
+                    CornerRadius="16"
+                    Padding="16"
+                    BorderBrush="#E2E8F0"
+                    BorderThickness="1">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="12"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Text="Son Sistem İşlemleri"
+                               FontSize="18"
+                               FontWeight="SemiBold"
+                               Foreground="#1E293B"/>
+
+                    <DataGrid Grid.Row="2"
+                              ItemsSource="{Binding LatestAuditLogs}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              CanUserAddRows="False"
+                              HeadersVisibility="Column"
+                              GridLinesVisibility="Horizontal"
+                              RowHeight="36">
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Action"
+                                                Binding="{Binding Action}"
+                                                Width="*"/>
+
+                            <DataGridTextColumn Header="Kullanıcı"
+                                                Binding="{Binding UserName}"
+                                                Width="110"/>
+
+                            <DataGridTextColumn Header="Tarih"
+                                                Binding="{Binding Timestamp, StringFormat=dd.MM.yyyy HH:mm}"
+                                                Width="130"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Durum Mesajı -->
+        <Border Grid.Row="3"
+                Background="#EEF2FF"
+                CornerRadius="10"
+                Padding="12"
+                Margin="0,16,0,0">
+
+            <TextBlock Text="{Binding StatusMessage}"
+                       Foreground="#4338CA"
+                       FontWeight="SemiBold"/>
+        </Border>
+    </Grid>
+</UserControl>

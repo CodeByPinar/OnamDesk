@@ -1,0 +1,267 @@
+﻿<UserControl x:Class="OnamDesk.Views.ArchiveView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="650"
+             d:DesignWidth="1050">
+
+    <Grid Background="#F4F7FA" Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Başlık -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,16">
+            <TextBlock Text="Arşiv"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       Foreground="#1E293B"/>
+
+            <TextBlock Text="Oluşturulan onam kayıtlarını görüntüleyin, arayın ve detaylarını inceleyin."
+                       FontSize="14"
+                       Foreground="#64748B"
+                       Margin="0,4,0,0"/>
+        </StackPanel>
+
+        <!-- İçerik -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.7*"/>
+                <ColumnDefinition Width="24"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Sol: Liste -->
+            <Border Grid.Column="0"
+                    Background="White"
+                    CornerRadius="14"
+                    Padding="16"
+                    BorderBrush="#E2E8F0"
+                    BorderThickness="1">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="12"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Arama -->
+                    <DockPanel Grid.Row="0">
+                        <TextBox Width="420"
+                                 Height="36"
+                                 VerticalContentAlignment="Center"
+                                 Padding="10,0"
+                                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                                 ToolTip="Hasta, şablon veya doktor adına göre ara"/>
+
+                        <Button Content="Yenile"
+                                Width="90"
+                                Height="36"
+                                Margin="10,0,0,0"
+                                Command="{Binding LoadConsentFormsCommand}"/>
+                    </DockPanel>
+
+                    <!-- Liste -->
+                    <DataGrid Grid.Row="2"
+                              ItemsSource="{Binding ConsentForms}"
+                              SelectedItem="{Binding SelectedConsentForm, Mode=TwoWay}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              SelectionMode="Single"
+                              CanUserAddRows="False"
+                              HeadersVisibility="Column"
+                              GridLinesVisibility="Horizontal"
+                              RowHeight="38">
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID"
+                                                Binding="{Binding Id}"
+                                                Width="55"/>
+
+                            <DataGridTextColumn Header="Hasta"
+                                                Binding="{Binding Patient.FullName}"
+                                                Width="*"/>
+
+                            <DataGridTextColumn Header="Şablon"
+                                                Binding="{Binding Template.Name}"
+                                                Width="210"/>
+
+                            <DataGridTextColumn Header="Doktor"
+                                                Binding="{Binding DoctorName}"
+                                                Width="130"/>
+
+                            <DataGridTextColumn Header="Tarih"
+                                                Binding="{Binding SignedAt, StringFormat=dd.MM.yyyy HH:mm}"
+                                                Width="145"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!-- Alt İşlem Alanı -->
+                    <StackPanel Grid.Row="3"
+            Orientation="Horizontal"
+            HorizontalAlignment="Right"
+            Margin="0,16,0,0">
+
+                        <Button Content="PDF Oluştur"
+            Width="120"
+            Height="38"
+            Margin="0,0,10,0"
+            Command="{Binding GeneratePdfCommand}"/>
+
+                        <Button Content="PDF Aç"
+            Width="90"
+            Height="38"
+            Margin="0,0,10,0"
+            Command="{Binding OpenPdfCommand}"/>
+
+                        <Button Content="İmza Hash Doğrula"
+            Width="150"
+            Height="38"
+            Margin="0,0,10,0"
+            Command="{Binding VerifySignatureCommand}"/>
+
+                        <Button Content="Seçili Kaydı Sil"
+            Width="140"
+            Height="38"
+            Command="{Binding DeleteConsentFormCommand}"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Sağ: Detay Paneli -->
+            <Border Grid.Column="2"
+                    Background="White"
+                    CornerRadius="14"
+                    Padding="20"
+                    BorderBrush="#E2E8F0"
+                    BorderThickness="1">
+
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock Text="Onam Detayı"
+                                   FontSize="20"
+                                   FontWeight="SemiBold"
+                                   Foreground="#1E293B"
+                                   Margin="0,0,0,16"/>
+
+                        <TextBlock Text="Hasta"
+                                   Foreground="#64748B"
+                                   FontWeight="SemiBold"/>
+
+                        <TextBlock Text="{Binding SelectedConsentForm.Patient.FullName}"
+                                   Foreground="#0F172A"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Margin="0,4,0,14"/>
+
+                        <TextBlock Text="Şablon"
+                                   Foreground="#64748B"
+                                   FontWeight="SemiBold"/>
+
+                        <TextBlock Text="{Binding SelectedConsentForm.Template.Name}"
+                                   Foreground="#0F172A"
+                                   FontSize="15"
+                                   Margin="0,4,0,14"
+                                   TextWrapping="Wrap"/>
+
+                        <TextBlock Text="Kategori"
+                                   Foreground="#64748B"
+                                   FontWeight="SemiBold"/>
+
+                        <TextBlock Text="{Binding SelectedConsentForm.Template.Category}"
+                                   Foreground="#0F172A"
+                                   FontSize="15"
+                                   Margin="0,4,0,14"/>
+
+                        <TextBlock Text="Doktor"
+                                   Foreground="#64748B"
+                                   FontWeight="SemiBold"/>
+
+                        <TextBlock Text="{Binding SelectedConsentForm.DoctorName}"
+                                   Foreground="#0F172A"
+                                   FontSize="15"
+                                   Margin="0,4,0,14"/>
+
+                        <TextBlock Text="İmzalanma Tarihi"
+                                   Foreground="#64748B"
+                                   FontWeight="SemiBold"/>
+
+                        <TextBlock Text="{Binding SelectedConsentForm.SignedAt, StringFormat=dd.MM.yyyy HH:mm:ss}"
+                                   Foreground="#0F172A"
+                                   FontSize="15"
+                                   Margin="0,4,0,14"/>
+
+                        <TextBlock Text="İmza Hash"
+                                   Foreground="#64748B"
+                                   FontWeight="SemiBold"/>
+
+                        <Border Background="#F8FAFC"
+                                BorderBrush="#E2E8F0"
+                                BorderThickness="1"
+                                CornerRadius="10"
+                                Padding="10"
+                                Margin="0,4,0,14">
+
+                            <TextBlock Text="{Binding SelectedConsentForm.SignatureHash}"
+                                       Foreground="#334155"
+                                       FontSize="12"
+                                       TextWrapping="Wrap"/>
+                        </Border>
+
+                        <TextBlock Text="PDF Yolu"
+                                   Foreground="#64748B"
+                                   FontWeight="SemiBold"/>
+
+                        <Border Background="#F8FAFC"
+                                BorderBrush="#E2E8F0"
+                                BorderThickness="1"
+                                CornerRadius="10"
+                                Padding="10"
+                                Margin="0,4,0,14">
+
+                            <TextBlock Text="{Binding SelectedConsentForm.PdfPath}"
+                                       Foreground="#334155"
+                                       FontSize="12"
+                                       TextWrapping="Wrap"/>
+                        </Border>
+
+                        <TextBlock Text="Notlar"
+                                   Foreground="#64748B"
+                                   FontWeight="SemiBold"/>
+
+                        <Border Background="#FFF7ED"
+                                BorderBrush="#FED7AA"
+                                BorderThickness="1"
+                                CornerRadius="10"
+                                Padding="10"
+                                Margin="0,4,0,0">
+
+                            <TextBlock Text="{Binding SelectedConsentForm.Notes}"
+                                       Foreground="#9A3412"
+                                       FontSize="13"
+                                       TextWrapping="Wrap"/>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+
+        <!-- Durum Mesajı -->
+        <Border Grid.Row="2"
+                Background="#FEF3C7"
+                CornerRadius="10"
+                Padding="12"
+                Margin="0,16,0,0">
+
+            <TextBlock Text="{Binding StatusMessage}"
+                       Foreground="#92400E"
+                       FontWeight="SemiBold"/>
+        </Border>
+    </Grid>
+</UserControl>

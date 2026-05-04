@@ -1,0 +1,481 @@
+﻿<UserControl x:Class="OnamDesk.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="650"
+             d:DesignWidth="1050">
+
+    <UserControl.Resources>
+
+        <Style x:Key="SectionCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="18"/>
+            <Setter Property="Padding" Value="22"/>
+            <Setter Property="BorderBrush" Value="#E2E8F0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="0,0,0,18"/>
+        </Style>
+
+        <Style x:Key="FieldLabelStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#475569"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+        </Style>
+
+        <Style x:Key="InputTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="11,0"/>
+            <Setter Property="BorderBrush" Value="#CBD5E1"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="#F8FAFC"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+
+        <Style x:Key="InputPasswordBoxStyle" TargetType="PasswordBox">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="11,0"/>
+            <Setter Property="BorderBrush" Value="#CBD5E1"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="#F8FAFC"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+
+        <Style x:Key="PrimaryActionButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Padding" Value="16,0"/>
+            <Setter Property="Background" Value="#0F766E"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <Style x:Key="SecondaryActionButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Padding" Value="16,0"/>
+            <Setter Property="Background" Value="#F1F5F9"/>
+            <Setter Property="Foreground" Value="#334155"/>
+            <Setter Property="BorderBrush" Value="#CBD5E1"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+    </UserControl.Resources>
+
+    <Grid Background="#F4F7FA" Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Başlık -->
+        <DockPanel Grid.Row="0" Margin="0,0,0,18">
+            <StackPanel>
+                <TextBlock Text="Ayarlar"
+                           FontSize="30"
+                           FontWeight="Bold"
+                           Foreground="#0F172A"/>
+
+                <TextBlock Text="Klinik bilgileri, PDF çıktıları, güvenlik ve yedekleme ayarlarını yönetin."
+                           FontSize="14"
+                           Foreground="#64748B"
+                           Margin="0,5,0,0"/>
+            </StackPanel>
+
+            <Border DockPanel.Dock="Right"
+                    Background="#ECFDF5"
+                    CornerRadius="18"
+                    Padding="13,7"
+                    VerticalAlignment="Center">
+
+                <TextBlock Text="● Ayarlar aktif"
+                           Foreground="#047857"
+                           FontWeight="SemiBold"
+                           FontSize="13"/>
+            </Border>
+        </DockPanel>
+
+        <!-- Ana İçerik -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Sol Özet Panel -->
+            <Border Grid.Column="0"
+                    Background="#0F172A"
+                    CornerRadius="22"
+                    Padding="20">
+
+                <StackPanel>
+                    <TextBlock Text="OnamDesk"
+                               Foreground="White"
+                               FontSize="24"
+                               FontWeight="Bold"/>
+
+                    <TextBlock Text="Sistem yapılandırması"
+                               Foreground="#94A3B8"
+                               FontSize="13"
+                               Margin="0,4,0,22"/>
+
+                    <Border Background="#111827"
+                            CornerRadius="16"
+                            Padding="14"
+                            Margin="0,0,0,12"
+                            BorderBrush="#1E293B"
+                            BorderThickness="1">
+
+                        <StackPanel>
+                            <TextBlock Text="🏥 Klinik"
+                                       Foreground="#E2E8F0"
+                                       FontWeight="SemiBold"/>
+
+                            <TextBlock Text="{Binding ClinicName}"
+                                       Foreground="#94A3B8"
+                                       FontSize="12"
+                                       TextWrapping="Wrap"
+                                       Margin="0,6,0,0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="#111827"
+                            CornerRadius="16"
+                            Padding="14"
+                            Margin="0,0,0,12"
+                            BorderBrush="#1E293B"
+                            BorderThickness="1">
+
+                        <StackPanel>
+                            <TextBlock Text="👤 Aktif Kullanıcı"
+                                       Foreground="#E2E8F0"
+                                       FontWeight="SemiBold"/>
+
+                            <TextBlock Text="{Binding CurrentUserName}"
+                                       Foreground="#94A3B8"
+                                       FontSize="12"
+                                       Margin="0,6,0,0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="#111827"
+                            CornerRadius="16"
+                            Padding="14"
+                            Margin="0,0,0,12"
+                            BorderBrush="#1E293B"
+                            BorderThickness="1">
+
+                        <StackPanel>
+                            <TextBlock Text="📄 PDF Başlığı"
+                                       Foreground="#E2E8F0"
+                                       FontWeight="SemiBold"/>
+
+                            <TextBlock Text="{Binding PdfHeaderTitle}"
+                                       Foreground="#94A3B8"
+                                       FontSize="12"
+                                       TextWrapping="Wrap"
+                                       Margin="0,6,0,0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="#022C22"
+                            CornerRadius="16"
+                            Padding="14"
+                            Margin="0,14,0,0"
+                            BorderBrush="#065F46"
+                            BorderThickness="1">
+
+                        <TextBlock Text="Ayarları değiştirdikten sonra kaydetmeyi unutma. Klinik ve kullanıcı bilgileri sol menüde anında güncellenir."
+                                   Foreground="#A7F3D0"
+                                   FontSize="12"
+                                   TextWrapping="Wrap"
+                                   LineHeight="18"/>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <!-- Sağ Ayar Formları -->
+            <ScrollViewer Grid.Column="2"
+                          VerticalScrollBarVisibility="Auto">
+
+                <StackPanel>
+
+                    <!-- Klinik Bilgileri -->
+                    <Border Style="{StaticResource SectionCardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="Klinik Bilgileri"
+                                       FontSize="21"
+                                       FontWeight="Bold"
+                                       Foreground="#1E293B"/>
+
+                            <TextBlock Text="Klinik adı, varsayılan doktor ve aktif kullanıcı bilgisini düzenleyin."
+                                       Foreground="#64748B"
+                                       FontSize="13"
+                                       Margin="0,4,0,18"/>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="16"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Klinik Adı"
+                                               Style="{StaticResource FieldLabelStyle}"/>
+
+                                    <TextBox Style="{StaticResource InputTextBoxStyle}"
+                                             Text="{Binding ClinicName, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="Varsayılan Doktor Adı"
+                                               Style="{StaticResource FieldLabelStyle}"/>
+
+                                    <TextBox Style="{StaticResource InputTextBoxStyle}"
+                                             Text="{Binding DefaultDoctorName, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <TextBlock Text="Aktif Kullanıcı Adı"
+                                       Style="{StaticResource FieldLabelStyle}"
+                                       Margin="0,16,0,5"/>
+
+                            <TextBox Style="{StaticResource InputTextBoxStyle}"
+                                     Text="{Binding CurrentUserName, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- PDF ve Arşiv -->
+                    <Border Style="{StaticResource SectionCardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="PDF ve Arşiv Ayarları"
+                                       FontSize="21"
+                                       FontWeight="Bold"
+                                       Foreground="#1E293B"/>
+
+                            <TextBlock Text="PDF çıktılarının başlığını ve kayıt klasörünü yönetin."
+                                       Foreground="#64748B"
+                                       FontSize="13"
+                                       Margin="0,4,0,18"/>
+
+                            <TextBlock Text="PDF Başlığı"
+                                       Style="{StaticResource FieldLabelStyle}"/>
+
+                            <TextBox Style="{StaticResource InputTextBoxStyle}"
+                                     Text="{Binding PdfHeaderTitle, UpdateSourceTrigger=PropertyChanged}"/>
+
+                            <TextBlock Text="Arşiv Klasörü"
+                                       Style="{StaticResource FieldLabelStyle}"
+                                       Margin="0,16,0,5"/>
+
+                            <TextBox Style="{StaticResource InputTextBoxStyle}"
+                                     Text="{Binding ArchiveFolderPath, UpdateSourceTrigger=PropertyChanged}"/>
+
+                            <Border Background="#EFF6FF"
+                                    CornerRadius="12"
+                                    Padding="12"
+                                    Margin="0,14,0,0">
+
+                                <TextBlock Text="PDF başlığı ve arşiv klasörü, PDF oluşturma sırasında aktif olarak kullanılır."
+                                           Foreground="#1D4ED8"
+                                           FontWeight="SemiBold"
+                                           FontSize="12"
+                                           TextWrapping="Wrap"/>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Güvenlik -->
+                    <Border Style="{StaticResource SectionCardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="Güvenlik / Şifre Değiştir"
+                                       FontSize="21"
+                                       FontWeight="Bold"
+                                       Foreground="#1E293B"/>
+
+                            <TextBlock Text="Uygulama giriş şifresini güvenli şekilde değiştirin."
+                                       Foreground="#64748B"
+                                       FontSize="13"
+                                       Margin="0,4,0,18"/>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="16"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Mevcut Şifre"
+                                               Style="{StaticResource FieldLabelStyle}"/>
+
+                                    <PasswordBox x:Name="CurrentPasswordInput"
+                                                 Style="{StaticResource InputPasswordBoxStyle}"
+                                                 PasswordChanged="CurrentPasswordInput_PasswordChanged"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="Yeni Şifre"
+                                               Style="{StaticResource FieldLabelStyle}"/>
+
+                                    <PasswordBox x:Name="NewPasswordInput"
+                                                 Style="{StaticResource InputPasswordBoxStyle}"
+                                                 PasswordChanged="NewPasswordInput_PasswordChanged"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <TextBlock Text="Yeni Şifre Tekrar"
+                                       Style="{StaticResource FieldLabelStyle}"
+                                       Margin="0,16,0,5"/>
+
+                            <PasswordBox x:Name="ConfirmNewPasswordInput"
+                                         Style="{StaticResource InputPasswordBoxStyle}"
+                                         PasswordChanged="ConfirmNewPasswordInput_PasswordChanged"/>
+
+                            <DockPanel Margin="0,18,0,0">
+                                <Border Background="#FFF7ED"
+                                        CornerRadius="12"
+                                        Padding="12"
+                                        DockPanel.Dock="Left"
+                                        Width="390">
+
+                                    <TextBlock Text="Yeni şifre en az 6 karakter olmalıdır. Değişiklik bir sonraki girişte geçerli olur."
+                                               Foreground="#9A3412"
+                                               FontWeight="SemiBold"
+                                               FontSize="12"
+                                               TextWrapping="Wrap"/>
+                                </Border>
+
+                                <Button Content="Şifreyi Değiştir"
+                                        Style="{StaticResource PrimaryActionButtonStyle}"
+                                        Width="150"
+                                        HorizontalAlignment="Right"
+                                        Command="{Binding ChangePasswordCommand}"/>
+                            </DockPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Son Yedekler -->
+                    <Border Style="{StaticResource SectionCardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="Son Yedekler"
+                                       FontSize="21"
+                                       FontWeight="Bold"
+                                       Foreground="#1E293B"/>
+
+                            <TextBlock Text="Uygulama kapanışında alınan veritabanı yedeklerini görüntüleyin."
+                                       Foreground="#64748B"
+                                       FontSize="13"
+                                       Margin="0,4,0,18"/>
+
+                            <Border Background="#F8FAFC"
+                                    BorderBrush="#E2E8F0"
+                                    BorderThickness="1"
+                                    CornerRadius="14"
+                                    Padding="10"
+                                    MinHeight="150">
+
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <ListBox Grid.Row="0"
+                                             ItemsSource="{Binding BackupFiles}"
+                                             SelectedItem="{Binding SelectedBackupFile, Mode=TwoWay}"
+                                             BorderThickness="0"
+                                             Background="Transparent"
+                                             FontSize="12"
+                                             MinHeight="95"/>
+
+                                    <StackPanel Grid.Row="1"
+                                                Orientation="Horizontal"
+                                                HorizontalAlignment="Right"
+                                                Margin="0,12,0,0">
+
+                                        <Button Content="Yedekleri Yenile"
+                                                Style="{StaticResource SecondaryActionButtonStyle}"
+                                                Width="130"
+                                                Command="{Binding LoadBackupFilesCommand}"/>
+
+                                        <Button Content="Klasörde Göster"
+                                                Style="{StaticResource PrimaryActionButtonStyle}"
+                                                Width="130"
+                                                Margin="10,0,0,0"
+                                                Command="{Binding OpenSelectedBackupFolderCommand}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Genel Butonlar -->
+                    <Border Background="White"
+                            CornerRadius="18"
+                            Padding="18"
+                            BorderBrush="#E2E8F0"
+                            BorderThickness="1">
+
+                        <DockPanel>
+                            <StackPanel>
+                                <TextBlock Text="Genel İşlemler"
+                                           FontSize="17"
+                                           FontWeight="Bold"
+                                           Foreground="#1E293B"/>
+
+                                <TextBlock Text="Ayarları kaydedin, yenileyin veya varsayılanlara döndürün."
+                                           Foreground="#64748B"
+                                           FontSize="12"
+                                           Margin="0,4,0,0"/>
+                            </StackPanel>
+
+                            <StackPanel DockPanel.Dock="Right"
+                                        Orientation="Horizontal"
+                                        HorizontalAlignment="Right">
+
+                                <Button Content="Ayarları Kaydet"
+                                        Style="{StaticResource PrimaryActionButtonStyle}"
+                                        Width="140"
+                                        Command="{Binding SaveSettingsCommand}"/>
+
+                                <Button Content="Varsayılana Döndür"
+                                        Style="{StaticResource SecondaryActionButtonStyle}"
+                                        Width="155"
+                                        Margin="10,0,0,0"
+                                        Command="{Binding ResetSettingsCommand}"/>
+
+                                <Button Content="Yenile"
+                                        Style="{StaticResource SecondaryActionButtonStyle}"
+                                        Width="90"
+                                        Margin="10,0,0,0"
+                                        Command="{Binding LoadSettingsCommand}"/>
+                            </StackPanel>
+                        </DockPanel>
+                    </Border>
+
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+
+        <!-- Durum Mesajı -->
+        <Border Grid.Row="2"
+                Background="#F0FDF4"
+                CornerRadius="12"
+                Padding="13"
+                Margin="0,16,0,0">
+
+            <TextBlock Text="{Binding StatusMessage}"
+                       Foreground="#15803D"
+                       FontWeight="SemiBold"/>
+        </Border>
+    </Grid>
+</UserControl>
