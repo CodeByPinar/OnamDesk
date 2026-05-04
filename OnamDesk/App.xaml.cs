@@ -1,16 +1,33 @@
-﻿using OnamDesk.Views;
+﻿using OnamDesk.Services;
+using OnamDesk.Views;
 using System.Windows;
 
 namespace OnamDesk
 {
     public partial class App : Application
     {
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
-            // Login kapanınca uygulama otomatik kapanmasın.
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
+
+            try
+            {
+                var databaseInitializerService = new DatabaseInitializerService();
+                await databaseInitializerService.InitializeAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Veritabanı başlatılırken hata oluştu:\n\n{ex.Message}",
+                    "OnamDesk Başlatma Hatası",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+
+                Shutdown();
+                return;
+            }
 
             var loginView = new LoginView();
 
@@ -22,7 +39,6 @@ namespace OnamDesk
 
                 MainWindow = mainWindow;
 
-                // Ana pencere açıldıktan sonra normal kapanma davranışına dön.
                 ShutdownMode = ShutdownMode.OnMainWindowClose;
 
                 mainWindow.Show();

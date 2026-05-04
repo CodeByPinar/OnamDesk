@@ -84,20 +84,27 @@ namespace OnamDesk.ViewModels
 
         private async Task WriteLoginAuditAsync(string action, string message)
         {
-            var settings = await _settingsService.GetSettingsAsync();
+            try
+            {
+                var settings = await _settingsService.GetSettingsAsync();
 
-            var userName = string.IsNullOrWhiteSpace(settings.CurrentUserName)
-                ? "Admin"
-                : settings.CurrentUserName.Trim();
+                var userName = string.IsNullOrWhiteSpace(settings.CurrentUserName)
+                    ? "Admin"
+                    : settings.CurrentUserName.Trim();
 
-            await _auditLogService.AddAsync(
-                action: action,
-                userName: userName,
-                details: new
-                {
-                    Message = message,
-                    AttemptedAt = DateTime.UtcNow
-                });
+                await _auditLogService.AddAsync(
+                    action: action,
+                    userName: userName,
+                    details: new
+                    {
+                        Message = message,
+                        AttemptedAt = DateTime.UtcNow
+                    });
+            }
+            catch
+            {
+                // Audit log yazılamazsa login işlemini engelleme.
+            }
         }
     }
 }
