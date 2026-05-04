@@ -48,3 +48,8 @@ auth.json
 # Temporary files
 *.tmp
 *.temp
+
+# Publish outputs
+publish/
+publish-self-contained/
+*.zip
